@@ -4,10 +4,12 @@ import co.edu.utp.isc.gia.proyecto2.dto.UsuarioDto;
 import co.edu.utp.isc.gia.proyecto2.dto.UsuarioDtoEnvio;
 import co.edu.utp.isc.gia.proyecto2.exceptions.NoExistUserException;
 
+import java.util.List;
+
 public interface UsuarioService {
     UsuarioDto crearUsuario(UsuarioDto usuarioDto);
 
-    UsuarioDtoEnvio usuarioEnvio(Long id) throws NoExistUserException;
+    List<UsuarioDtoEnvio> usuarioEnvio(String cedula) throws NoExistUserException;
 
     void borrarUsuario(Long id) throws NoExistUserException;
 

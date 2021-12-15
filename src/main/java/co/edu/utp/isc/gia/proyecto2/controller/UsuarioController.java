@@ -8,6 +8,8 @@ import co.edu.utp.isc.gia.proyecto2.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("usuario")
 public class UsuarioController {
@@ -21,29 +23,22 @@ public class UsuarioController {
     }
 
     @GetMapping("usuarioEnvio")
-    public UsuarioDtoEnvio recibirUsuarioEnvio(@RequestParam Long id) throws NoExistUserException {
-        try {
-            return usuarioService.usuarioEnvio(id);
-        } catch (NoExistUserException e){
-            throw e;        }
+    public List<UsuarioDtoEnvio> recibirUsuarioEnvio(@RequestParam String cedula) throws NoExistUserException {
+
+            return usuarioService.usuarioEnvio(cedula);
     }
 
     @DeleteMapping("borrarUsuario")
     public void borrarUsuario(@RequestParam Long id) throws NoExistUserException {
-        try {
+
             usuarioService.borrarUsuario(id);
-        } catch (NoExistUserException e){
-            throw e;
-        }
     }
 
     @PutMapping("actualizarUsuario")
-    public UsuarioDto actualizarUsuario(@RequestParam Long id, @RequestBody UsuarioDto usuarioDto) throws NoExistUserException {
-        try {
+    public UsuarioDto actualizarUsuario(@RequestParam Long id, @RequestBody UsuarioDto usuarioDto)
+            throws NoExistUserException {
+
             return usuarioService.actualizarUsuario(id, usuarioDto);
-        } catch (NoExistUserException e) {
-            throw e;
-        }
     }
 
 }

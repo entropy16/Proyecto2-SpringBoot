@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,11 +35,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDtoEnvio usuarioEnvio(Long id) throws NoExistUserException {
-        if( this.usuarioRepository.existsById(id) ) {
-            Optional<UsuarioEntity> usuarioEntity = this.usuarioRepository.findById(id);
+    public List<UsuarioDtoEnvio> usuarioEnvio(String cedula) throws NoExistUserException {
+        List<UsuarioEntity> usuarioEntities = usuarioRepository.findByCedula(cedula);
+        if( !usuarioEntities.isEmpty() ) {
+            List<UsuarioDtoEnvio> listUsuarioDtoEnvio = new ArrayList<>();
+            usuarioEntities.forEach(usuarioEntity -> {
+                listUsuarioDtoEnvio.add(modelMapper.map(usuarioEntity, UsuarioDtoEnvio.class));
+            });
 
-            return modelMapper.map(usuarioEntity.get(), UsuarioDtoEnvio.class);
+            return listUsuarioDtoEnvio;
         } else {
             throw new NoExistUserException("No existe el usuario en la base de datos.");
         }
