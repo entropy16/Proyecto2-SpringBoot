@@ -1,6 +1,9 @@
 package co.edu.utp.isc.gia.proyecto2.controller;
 
 import co.edu.utp.isc.gia.proyecto2.dto.UsuarioDto;
+import co.edu.utp.isc.gia.proyecto2.dto.UsuarioDtoEnvio;
+import co.edu.utp.isc.gia.proyecto2.entities.UsuarioEntity;
+import co.edu.utp.isc.gia.proyecto2.exceptions.NoExistUserException;
 import co.edu.utp.isc.gia.proyecto2.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,32 @@ public class UsuarioController {
     @PostMapping("crearUsuario")
     public UsuarioDto crearUsuario(@RequestBody UsuarioDto usuarioDto){
         return usuarioService.crearUsuario(usuarioDto);
+    }
+
+    @GetMapping("usuarioEnvio")
+    public UsuarioDtoEnvio recibirUsuarioEnvio(@RequestParam Long id) throws NoExistUserException {
+        try {
+            return usuarioService.usuarioEnvio(id);
+        } catch (NoExistUserException e){
+            throw e;        }
+    }
+
+    @DeleteMapping("borrarUsuario")
+    public void borrarUsuario(@RequestParam Long id) throws NoExistUserException {
+        try {
+            usuarioService.borrarUsuario(id);
+        } catch (NoExistUserException e){
+            throw e;
+        }
+    }
+
+    @PutMapping("actualizarUsuario")
+    public UsuarioDto actualizarUsuario(@RequestParam Long id, @RequestBody UsuarioDto usuarioDto) throws NoExistUserException {
+        try {
+            return usuarioService.actualizarUsuario(id, usuarioDto);
+        } catch (NoExistUserException e) {
+            throw e;
+        }
     }
 
 }
